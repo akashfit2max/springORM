@@ -23,6 +23,9 @@
 	</bean>
 
 
+	<!-- this is the flow => studentDao > hibernatetemplate > sessionfactory (localsessionfactory) > datasource -->
+
+
 	<!-- session factory declaration it is an interface so we use localsessionfactory -->
 	<bean class="org.springframework.orm.hibernate5.LocalSessionFactoryBean" name="factory">
 
