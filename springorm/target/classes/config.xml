@@ -12,6 +12,8 @@
     http://www.springframework.org/schema/tx/spring-tx.xsd
     ">
 
+	<tx:annotation-driven />
+
 	<bean class="org.springframework.jdbc.datasource.DriverManagerDataSource" name="ds">
 		<property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
 		<property name="url" value="jdbc:mysql://localhost:3306/akash" />
@@ -23,19 +25,27 @@
 
 	<!-- session factory declaration it is an interface so we use localsessionfactory -->
 	<bean class="org.springframework.orm.hibernate5.LocalSessionFactoryBean" name="factory">
-		<property name="dataSource" ref="ds" />
+
 		<!-- hibernate ki properties -->
+		<!-- 1.datasorce -->
+		<property name="dataSource" ref="ds" />
+
+
+		<!-- hibernate properties -->
 		<property name="hibernateProperties">
 			<props>
 				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL57Dialect</prop>
 				<prop key="hibernate.show_sql">true</prop>
 				<prop key="hibernate.format_sql">true</prop>
-				<prop key="hibernate.hbm2ddl-auto">update</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
 			</props>
 		</property>
+
+
+		<!-- annotated classes -->
 		<property name="annotatedClasses">
 			<list>
-				<value>com.spring.orm.dao.StudentDao</value>
+				<value>com.spring.orm.entities.Student</value>
 			</list>
 		</property>
 	</bean>
@@ -49,6 +59,8 @@
 
 	<!-- object of studentDao class -->
 	<bean class="com.spring.orm.dao.StudentDao" name="studentDao" p:hibernateTemplate-ref="hibernateTemplate" />
+
+	<bean class="org.springframework.orm.hibernate5.HibernateTransactionManager" name="transactionManager" p:sessionFactory-ref="factory"></bean>
 
 
 </beans>
